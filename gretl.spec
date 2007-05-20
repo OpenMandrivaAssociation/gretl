@@ -16,7 +16,7 @@ Group: Sciences/Other
 Source: http://prdownloads.sourceforge.net/gretl/%{name}-%{version}.tar.bz2
 URL: http://gretl.sourceforge.net/
 BuildRoot: %{_tmppath}/%{name}-buildroot
-BuildRequires: libpng-devel gtk+2-devel glib2-devel libblas-devel libfftw-devel libxml2-devel lapack-devel libreadline-devel libgmp-devel libmpfr-devel
+BuildRequires: libpng-devel gtk+2-devel glib2-devel libblas-devel libfftw-devel libxml2-devel lapack-devel libreadline-devel termcap-devel libgmp-devel libmpfr-devel
 BuildRequires: gnuplot
 
 %description
