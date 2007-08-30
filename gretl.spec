@@ -78,7 +78,7 @@ Icon=%{_iconsdir}/mathematics_section.png
 Terminal=false
 Type=Application
 StartupNotify=true
-Categories=Education;Science;DataVisualization;X-MandrivaLinux-MoreApplications-Sciences-NumericalAnalysis
+Categories=Education;Science;DataVisualization;X-MandrivaLinux-MoreApplications-Sciences-NumericalAnalysis;
 EOF
 
 %find_lang %name
