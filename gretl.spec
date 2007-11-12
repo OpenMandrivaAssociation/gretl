@@ -65,7 +65,6 @@ rm -rf %{buildroot}
 %patch0 -p1 -b .cputoolize
 
 %build
-autoreconf
 CFLAGS="$RPM_OPT_FLAGS -fPIC" %configure2_5x
 %make
 %make doc
