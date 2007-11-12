@@ -19,7 +19,7 @@ BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libpng-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	glib2-devel
-BuildRequires:	libblas-devel
+BuildRequires:	blas-devel
 BuildRequires:	libfftw-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	lapack-devel
