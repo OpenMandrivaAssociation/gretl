@@ -13,7 +13,11 @@ Release:	%{release}
 Summary:	Econometric analysis tool
 License:	GPLv2+
 Group:		Sciences/Other
-Source:		http://prdownloads.sourceforge.net/gretl/%{name}-%{version}.tar.bz2
+Source0:	http://prdownloads.sourceforge.net/gretl/%{name}-%{version}.tar.bz2
+# Recent cputoolize cannot handle variables in AC_CONFIG_AUX_DIR: 
+# patch removes the $srcdir variable from this setting in configure.in
+# - AdamW 2007/11
+Patch0:		gretl-1.6.5-cputoolize.patch
 URL:		http://gretl.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libpng-devel
@@ -58,8 +62,10 @@ C programming language.
 %prep
 rm -rf %{buildroot}
 %setup -q
+%patch0 -p1 -b .cputoolize
 
 %build
+autoreconf
 CFLAGS="$RPM_OPT_FLAGS -fPIC" %configure2_5x
 %make
 %make doc
