@@ -18,6 +18,8 @@ Source0:	http://prdownloads.sourceforge.net/gretl/%{name}-%{version}.tar.bz2
 # patch removes the $srcdir variable from this setting in configure.in
 # - AdamW 2007/11
 Patch0:		gretl-1.6.5-cputoolize.patch
+# From FreeBSD: fix gfortran detection test - AdamW 2007/11
+Patch1:		gretl-1.6.5-gfortran.patch
 URL:		http://gretl.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libpng-devel
@@ -63,8 +65,11 @@ C programming language.
 rm -rf %{buildroot}
 %setup -q
 %patch0 -p1 -b .cputoolize
+%patch1 -p0 -b .gfortran
 
 %build
+# required by patch1
+autoconf
 CFLAGS="$RPM_OPT_FLAGS -fPIC" %configure2_5x
 %make
 %make doc
