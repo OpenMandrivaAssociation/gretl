@@ -1,117 +1,116 @@
-%define name gretl
-%define version 1.6.5
-%define release %mkrel 1
+%define name	gretl
+%define version	1.6.5
+%define release	%mkrel 2
 
-%define major 1.0
+%define major	1.0
 
-%define libname %mklibname %name %major
-%define libnamedev %mklibname %name %major -d
+%define libname		%mklibname %name %major
+%define develname	%mklibname %name -d
 
-Version: %{version}
-Summary: Econometric analysis tool
-Name: %{name}
-Release: %{release}
-License: GPL
-Group: Sciences/Other
-Source: http://prdownloads.sourceforge.net/gretl/%{name}-%{version}.tar.bz2
-URL: http://gretl.sourceforge.net/
-BuildRoot: %{_tmppath}/%{name}-buildroot
-BuildRequires: libpng-devel gtk+2-devel glib2-devel libblas-devel libfftw-devel libxml2-devel lapack-devel libreadline-devel termcap-devel libgmp-devel libmpfr-devel
-BuildRequires: gnuplot
+Name:		%{name}
+Version:	%{version}
+Release:	%{release}
+Summary:	Econometric analysis tool
+License:	GPLv2+
+Group:		Sciences/Other
+Source:		http://prdownloads.sourceforge.net/gretl/%{name}-%{version}.tar.bz2
+URL:		http://gretl.sourceforge.net/
+BuildRoot:	%{_tmppath}/%{name}-buildroot
+BuildRequires:	libpng-devel
+BuildRequires:	gtk+2-devel
+BuildRequires:	glib2-devel
+BuildRequires:	libblas-devel
+BuildRequires:	libfftw-devel
+BuildRequires:	libxml2-devel
+BuildRequires:	lapack-devel
+BuildRequires:	libreadline-devel
+BuildRequires:	termcap-devel
+BuildRequires:	libgmp-devel
+BuildRequires:	libmpfr-devel
+BuildRequires:	gnuplot
 
 %description
 Gretl is a software package for econometric analysis, written in the 
 C programming language. 
 
-%package -n %libname
+%package -n %{libname}
 Summary: Shared library for gretl
-License: GPL
+License: GPLv2+
 Group: System/Libraries
 
-%description -n %libname
+%description -n %{libname}
 Gretl is a software package for econometric analysis, written in the 
 C programming language.
 
-%package -n %libname-devel
+%package -n %{develname}
 Summary: Development headers for gretl library
-License: GPL
+License: GPLv2+
 Group: Development/C
-Provides: libgretl-devel
-Requires: %libname = %version
+Provides:	lib%{name}-devel
+Provides:	%{name}-devel
+Requires:	%{libname} = %{version}
+Obsoletes:	%{mklibname gretl 1.0 -d}
 
-%description -n %libname-devel
+%description -n %{develname}
 Gretl is a software package for econometric analysis, written in the 
 C programming language.
 
 %prep
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %setup -q
 
 %build
-CFLAGS="$RPM_OPT_FLAGS -fPIC" ./configure --prefix=%_prefix --datadir=%_datadir --mandir=%_mandir --libdir=%_libdir
+CFLAGS="$RPM_OPT_FLAGS -fPIC" %configure2_5x
 %make
 %make doc
 
 %install
-%__rm -rf $RPM_BUILD_ROOT
+%__rm -rf %{buildroot}
 %makeinstall
 
-mkdir -p %{buildroot}/%{_menudir}
-cat > %{buildroot}/%{_menudir}/%{name} <<EOF
-?package(%{name}):\
-command="/usr/bin/gretl"\
-title="Gretl"\
-longtitle="Econometric analysis"\
-needs="x11"\
-icon="mathematics_section.png"\
-section="Applications/Sciences/Mathematics" \
-xdg="true"
-EOF
-
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
-cat > $RPM_BUILD_ROOT%{_datadir}/applications/mandriva-%{name}.desktop <<EOF
+mkdir -p %{buildroot}%{_datadir}/applications
+cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop <<EOF
 [Desktop Entry]
 Name=Gretl
 Comment=Econometric analysis tool
 Exec=%{_bindir}/%{name} 
-Icon=%{_iconsdir}/mathematics_section.png
+Icon=mathematics_section
 Terminal=false
 Type=Application
 StartupNotify=true
-Categories=Education;Science;DataVisualization;X-MandrivaLinux-MoreApplications-Sciences-NumericalAnalysis;
+Categories=Education;Science;DataVisualization;
 EOF
 
-%find_lang %name
+%find_lang %{name}
  
 %post 
-%update_menus
+%{update_menus}
 
-%post -n %libname -p /sbin/ldconfig
+%post -n %{libname} -p /sbin/ldconfig
  
 %postun 
-%clean_menus
+%{clean_menus}
 
-%postun -n %libname -p /sbin/ldconfig
+%postun -n %{libname} -p /sbin/ldconfig
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files -f %name.lang
 %defattr(-,root,root)
 %doc README ChangeLog EXTENDING
 %doc doc/*
 %{_bindir}/*
-%{_datadir}/%{name}/
-%{_menudir}/*
+%{_datadir}/%{name}
 %{_datadir}/applications/mandriva-%{name}.desktop
-%_mandir/man1/*
-%_libdir/gretl-gtk2
+%{_mandir}/man1/*
+%{_libdir}/gretl-gtk2
 
-%files -n %libname
+%files -n %{libname}
 %defattr (-,root,root)
 %_libdir/*.so.*
 
-%files -n %libname-devel
+%files -n %{develname}
 %defattr (-,root,root)
 %{_includedir}/*
 %_libdir/*.la
