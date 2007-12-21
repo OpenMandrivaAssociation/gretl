@@ -21,6 +21,7 @@ Patch0:		gretl-1.6.5-cputoolize.patch
 # From FreeBSD: fix gfortran detection test - AdamW 2007/11
 Patch1:		gretl-1.6.5-gfortran.patch
 URL:		http://gretl.sourceforge.net/
+BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libpng-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	glib2-devel
