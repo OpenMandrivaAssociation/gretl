@@ -30,6 +30,7 @@ BuildRequires:	glib2-devel
 BuildRequires:	blas-devel
 BuildRequires:	libfftw-devel
 BuildRequires:	libxml2-devel
+BuildRequires:	gtksourceview-devel
 BuildRequires:	lapack-devel
 BuildRequires:	libreadline-devel
 BuildRequires:	termcap-devel
