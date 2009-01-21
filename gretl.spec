@@ -1,5 +1,5 @@
 %define name	gretl
-%define version	1.7.5
+%define version	1.7.9
 %define release	%mkrel 1
 
 %define api	1.0
@@ -19,6 +19,9 @@ Source0:	http://prdownloads.sourceforge.net/gretl/%{name}-%{version}.tar.bz2
 # patch removes the $srcdir variable from this setting in configure.in
 # - AdamW 2007/11
 Patch0:		gretl-1.6.5-cputoolize.patch
+Patch1:		gretl-1.7.9-fix-str-fmt.patch
+Patch2:		gretl-1.7.9-fix-libdir.patch
+Patch3:		gretl-1.7.9-link.patch
 URL:		http://gretl.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libpng-devel
@@ -62,32 +65,20 @@ Gretl is a software package for econometric analysis, written in the
 C programming language.
 
 %prep
-rm -rf %{buildroot}
 %setup -q
 %patch0 -p1 -b .cputoolize
+%patch1 -p0 -b .str
+%patch2 -p0 -b .lib
+%patch3 -p0 -b .link
 
 %build
 export CFLAGS="%{optflags} -fPIC"
 %configure2_5x
-%make
-%make doc
+%make LDFLAGS="%{?ldflags}"
 
 %install
 %__rm -rf %{buildroot}
-%makeinstall
-
-mkdir -p %{buildroot}%{_datadir}/applications
-cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop <<EOF
-[Desktop Entry]
-Name=Gretl
-Comment=Econometric analysis tool
-Exec=%{_bindir}/%{name} 
-Icon=mathematics_section
-Terminal=false
-Type=Application
-StartupNotify=true
-Categories=Education;Science;DataVisualization;
-EOF
+%makeinstall_std
 
 %find_lang %{name}
  
@@ -118,7 +109,10 @@ rm -rf %{buildroot}
 %doc doc/*
 %{_bindir}/*
 %{_datadir}/%{name}
-%{_datadir}/applications/mandriva-%{name}.desktop
+%{_datadir}/gtksourceview-2.0/language-specs/*.lang
+%{_datadir}/mime-info/*
+%{_datadir}/applications/*.desktop
+%{_datadir}/pixmaps/*
 %{_mandir}/man1/*
 %{_libdir}/gretl-gtk2
 
