@@ -31,6 +31,8 @@ BuildRequires:	blas-devel
 BuildRequires:	libfftw-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	gtksourceview-devel
+BuildRequires:	libgnomeprintui-devel
+BuildRequires:	gnomeui2-devel
 BuildRequires:	lapack-devel
 BuildRequires:	libreadline-devel
 BuildRequires:	termcap-devel
