@@ -1,6 +1,6 @@
 %define name	gretl
-%define version	1.8.6
-%define release	%mkrel 2
+%define version	1.8.7
+%define release	%mkrel 1
 
 %define api	1.0
 %define major 	0
@@ -19,7 +19,6 @@ Source0:	http://prdownloads.sourceforge.net/gretl/%{name}-%{version}.tar.bz2
 # patch removes the $srcdir variable from this setting in configure.in
 # - AdamW 2007/11
 Patch0:		gretl-1.6.5-cputoolize.patch
-Patch2:		gretl-1.7.9-fix-libdir.patch
 URL:		http://gretl.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libpng-devel
@@ -68,7 +67,6 @@ C programming language.
 %prep
 %setup -q
 %patch0 -p1 -b .cputoolize
-%patch2 -p0 -b .lib
 
 %build
 export CFLAGS="%{optflags} -fPIC"
