@@ -1,5 +1,5 @@
 %define name	gretl
-%define version	1.8.7
+%define version	1.9.3
 %define release	%mkrel 1
 
 %define api	1.0
