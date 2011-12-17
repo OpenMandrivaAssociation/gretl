@@ -1,9 +1,9 @@
 %define name	gretl
-%define version	1.9.4
-%define release	%mkrel 1
+%define version	1.9.6
+%define release	1
 
 %define api	1.0
-%define major 	0
+%define major 	1
 
 %define libname		%mklibname %name %api %major
 %define develname	%mklibname %name -d
@@ -20,7 +20,6 @@ Source0:	http://prdownloads.sourceforge.net/gretl/%{name}-%{version}.tar.bz2
 # - AdamW 2007/11
 Patch0:		gretl-1.6.5-cputoolize.patch
 URL:		http://gretl.sourceforge.net/
-BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libpng-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	glib2-devel
@@ -74,34 +73,11 @@ export CFLAGS="%{optflags} -fPIC"
 %make LDFLAGS="%{?ldflags}"
 
 %install
-%__rm -rf %{buildroot}
 %makeinstall_std
 
 %find_lang %{name}
  
-%if %mdkversion < 200900
-%post 
-%{update_menus}
-%endif
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
- 
-%if %mdkversion < 200900
-%postun 
-%{clean_menus}
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
-%clean
-rm -rf %{buildroot}
-
 %files -f %name.lang
-%defattr(-,root,root)
 %doc README ChangeLog
 %doc doc/*
 %{_bindir}/*
@@ -114,11 +90,9 @@ rm -rf %{buildroot}
 %{_libdir}/gretl-gtk2
 
 %files -n %{libname}
-%defattr (-,root,root)
 %_libdir/*%{api}.so.%{major}*
 
 %files -n %{develname}
-%defattr (-,root,root)
 %{_includedir}/*
 %_libdir/*.la
 %_libdir/*.so
