@@ -1,0 +1,60 @@
+diff -up ./plugin/audio.c.orig ./plugin/audio.c
+--- ./plugin/audio.c.orig	2013-08-18 18:20:32.034749850 +0000
++++ ./plugin/audio.c	2013-08-18 18:21:04.200449747 +0000
+@@ -37,7 +37,7 @@
+ 
+ #ifdef HAVE_FLITE
+ # include <flite/flite.h>
+-extern cst_voice *register_cmu_us_kal (void);
++extern cst_voice *register_cmu_us_kal16 (void);
+ #endif
+ 
+ #ifdef G_OS_WIN32
+@@ -654,7 +654,7 @@ static int save_dataset_comments (const
+     cst_wave *w, *fullw = NULL;
+ 
+     flite_init();
+-    v = register_cmu_us_kal();
++    v = register_cmu_us_kal16();
+ 
+     j = 0;
+     for (i=0; i<N_COMMENTS; i++) {
+@@ -683,7 +683,7 @@ static void speak_dataset_comments (cons
+     cst_voice *v;
+ 
+     flite_init();
+-    v = register_cmu_us_kal();
++    v = register_cmu_us_kal16();
+ 
+     for (i=0; i<N_COMMENTS; i++) {
+ 	if (dset->comments[i] != NULL) {
+@@ -776,7 +776,7 @@ static void audio_graph_error (const cha
+ #ifdef HAVE_FLITE
+     flite_init();
+ 
+-    v = register_cmu_us_kal();
++    v = register_cmu_us_kal16();
+     flite_text_to_speech(msg, v, "play");
+ #endif
+ #ifdef G_OS_WIN32
+diff -up ./plugin/audioprint.c.orig ./plugin/audioprint.c
+--- ./plugin/audioprint.c.orig	2013-08-18 18:00:29.293417742 +0000
++++ ./plugin/audioprint.c	2013-08-18 18:00:47.117695621 +0000
+@@ -195,7 +195,7 @@ static int speak_buffer (const char *buf
+     char line[2048];
+ 
+     flite_init();
+-    v = register_cmu_us_kal();
++    v = register_cmu_us_kal16();
+ 
+     bufgets_init(buf);
+ 
+@@ -219,7 +219,7 @@ static int speak_line (const char *line)
+ 
+     if (v == NULL) {
+ 	flite_init();
+-	v = register_cmu_us_kal();
++	v = register_cmu_us_kal16();
+     }
+ 
+     if (v == NULL) return 1;
