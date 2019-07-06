@@ -1,0 +1,11 @@
+diff -Nru a/xdg/gretl.desktop.in b/xdg/gretl.desktop.in
+--- a/xdg/gretl.desktop.in	2016-01-08 17:32:37.000000000 +0100
++++ b/xdg/gretl.desktop.in	2016-05-21 16:08:17.429275064 +0200
+@@ -6,6 +6,6 @@
+ Icon=gretl
+ Terminal=false
+ Type=Application
+-MimeType=application/gretl.data;application/gretl.session;text/gretl.script
++MimeType=application/gretl.data;application/gretl.session;text/gretl.script;
+ Categories=GTK;Education;Science;Economy;Math;
+ 
