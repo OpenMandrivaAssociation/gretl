@@ -1,5 +1,8 @@
+%define _disable_ld_no_undefined 1
+%define _disable_lto 1
+
 %define api		1.0
-%define major		29
+%define major		33
 %define libname		%mklibname %{name} %{api} %{major}
 %define devname		%mklibname -d %{name}
 
