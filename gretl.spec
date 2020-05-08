@@ -5,7 +5,7 @@
 
 Summary:	A tool for econometric analysis
 Name:		gretl
-Version:	2019c
+Version:	2020b
 Release:	1
 Group:		Sciences/Mathematics
 License:	GPLv3+ and BSD and MIT
@@ -15,6 +15,7 @@ Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.xz
 Source1:	gretl_plugins.txt
 #Patch1:		gretl-1.9.12-linking.patch
 Patch2:		gretl-2016b-fix-desktop-file.patch
+
 BuildRequires:	desktop-file-utils
 BuildRequires:	fonts-ttf-bitstream-vera
 BuildRequires:	fonts-ttf-freefont
