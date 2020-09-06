@@ -2,13 +2,13 @@
 %define _disable_lto 1
 
 %define api		1.0
-%define major		33
+%define major		35
 %define libname		%mklibname %{name} %{api} %{major}
 %define devname		%mklibname -d %{name}
 
 Summary:	A tool for econometric analysis
 Name:		gretl
-Version:	2020b
+Version:	2020d
 Release:	1
 Group:		Sciences/Mathematics
 License:	GPLv3+ and BSD and MIT
