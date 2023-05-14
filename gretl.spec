@@ -119,7 +119,7 @@ find %{buildroot} -name "*.la" -delete
 %{_datadir}/appdata/%{name}.appdata.xml
 %{_datadir}/mime/packages/%{name}.xml
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/%{name}/
+#{_datadir}/%{name}/
 %{_iconsdir}/hicolor/*/apps/%{name}.png
 %{_iconsdir}/hicolor/*/mimetypes/*.png
 %{_mandir}/man1/*
