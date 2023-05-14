@@ -51,7 +51,7 @@ A cross-platform software package for econometric analysis,
 written in the C programming language.
 
 %files -f %{name}.lang
-%doc ChangeLog CompatLog README.audio README gretl_plugins.txt
+%doc ChangeLog CompatLog README gretl_plugins.txt
 %{_bindir}/gretl*
 %{_libdir}/gretl-gtk3/
 %{_datadir}/%{name}/
