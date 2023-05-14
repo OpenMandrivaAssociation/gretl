@@ -111,24 +111,3 @@ install -pm644 %{SOURCE1} .
 
 #we don't want these
 find %{buildroot} -name "*.la" -delete
-
-%files -f %{name}.lang
-%doc ChangeLog CompatLog README gretl_plugins.txt
-%{_bindir}/gretl*
-%{_libdir}/gretl-gtk3/
-%{_datadir}/appdata/%{name}.appdata.xml
-%{_datadir}/mime/packages/%{name}.xml
-%{_datadir}/applications/%{name}.desktop
-#{_datadir}/%{name}/
-%{_iconsdir}/hicolor/*/apps/%{name}.png
-%{_iconsdir}/hicolor/*/mimetypes/*.png
-%{_mandir}/man1/*
-
-%files -n %{libname}
-%{_libdir}/libgretl-%{api}.so.%{major}
-%{_libdir}/libgretl-%{api}.so.%{major}.*
-
-%files -n %{devname}
-%{_libdir}/pkgconfig/gretl.pc
-%{_libdir}/libgretl-%{api}.so
-%{_includedir}/%{name}/
