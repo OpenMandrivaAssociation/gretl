@@ -1,3 +1,4 @@
+%global optflags %{optflags} -Wno-error -Wno-implicit-function-declaration
 %define _disable_ld_no_undefined 1
 %define _disable_lto 1
 
