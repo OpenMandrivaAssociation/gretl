@@ -9,7 +9,7 @@
 
 Summary:	A tool for econometric analysis
 Name:		gretl
-Version:	2023a
+Version:	2023c
 Release:	1
 Group:		Sciences/Mathematics
 License:	GPLv3+ and BSD and MIT
