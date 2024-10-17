@@ -13,7 +13,7 @@ Version:	2023c
 Release:	1
 Group:		Sciences/Mathematics
 License:	GPLv3+ and BSD and MIT
-Url:		http://gretl.sourceforge.net/
+Url:		https://gretl.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.xz
 #Licensing of plugins used in gretl
 Source1:	gretl_plugins.txt
