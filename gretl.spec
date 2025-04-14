@@ -1,9 +1,5 @@
-%global optflags %{optflags} -Wno-error -Wno-implicit-function-declaration
-%define _disable_ld_no_undefined 1
-%define _disable_lto 1
-
 %define api		1.0
-%define major		44
+%define major		51
 %define oldlibname	%mklibname %{name} 1.0
 %define devname		%mklibname %{name} -d
 %define oldlibname	%mklibname %{name} %{api} 44
