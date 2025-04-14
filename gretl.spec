@@ -62,6 +62,11 @@ written in the C programming language.
 %{_bindir}/gretl*
 %{_libdir}/gretl-gtk3/
 %{_datadir}/%{name}/
+%{_datadir}/metainfo/%{name}.metainfo.xml
+%{_datadir}/mime/packages/%{name}.xml
+%{_datadir}/applications/%{name}*.desktop
+%{_iconsdir}/hicolor/*/apps/%{name}*.png
+%{_iconsdir}/hicolor/*/mimetypes/*%{name}*
 %{_mandir}/man1/*
 
 #----------------------------------------------------------------------------
