@@ -1,4 +1,4 @@
-%define _disable_lto 1
+#define _disable_lto 1
 
 %define api		1.0
 %define major		51
@@ -111,6 +111,7 @@ install -pm644 %{SOURCE1} .
 %build
 export CC=gcc
 export CXX=g++
+LDFLAGS="%ldflags `pkg-config --libs ompi`"
 
 %configure \
 	--disable-static \
