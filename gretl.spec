@@ -3,13 +3,19 @@
 %define _disable_lto 1
 
 %define api		1.0
-%define major		44	
-%define libname		%mklibname %{name} %{api} %{major}
-%define devname		%mklibname -d %{name}
+%define major		44
+%define oldlibname	%mklibname %{name} 1.0
+%define devname		%mklibname %{name} -d
+%define oldlibname	%mklibname %{name} %{api} 44
+
+# BLAS lib
+%global blaslib flexiblas
+
+%bcond openmpi	1
 
 Summary:	A tool for econometric analysis
 Name:		gretl
-Version:	2023c
+Version:	2025a
 Release:	1
 Group:		Sciences/Mathematics
 License:	GPLv3+ and BSD and MIT
@@ -17,9 +23,6 @@ Url:		https://gretl.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.xz
 #Licensing of plugins used in gretl
 Source1:	gretl_plugins.txt
-#Patch1:		gretl-1.9.12-linking.patch
-Patch2:		gretl-2016b-fix-desktop-file.patch
-
 BuildRequires:	desktop-file-utils
 BuildRequires:	fonts-ttf-bitstream-vera
 BuildRequires:	fonts-ttf-freefont
@@ -30,7 +33,7 @@ BuildRequires:	gettext
 BuildRequires:	mpfr-devel
 BuildRequires:	readline-devel
 BuildRequires:	unixODBC-devel
-BuildRequires:	pkgconfig(blas)
+BuildRequires:	pkgconfig(%{blaslib})
 BuildRequires:	pkgconfig(fftw3)
 BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	pkgconfig(glib-2.0)
@@ -40,12 +43,17 @@ BuildRequires:	pkgconfig(lapack)
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(libgsf-1)
 BuildRequires:	pkgconfig(libxml-2.0)
-BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(ncurses)
+%if %{with openmpi}
+BuildRequires:	pkgconfig(ompi)
+%endif
 Requires:	fonts-ttf-bitstream-vera
 Requires:	fonts-ttf-freefont
 Requires:	gnuplot
 Requires:	R-base
+
+%patchlist
+gretl-2016b-fix-desktop-file.patch
 
 %description
 A cross-platform software package for econometric analysis,
@@ -63,6 +71,7 @@ written in the C programming language.
 %package -n %{libname}
 Summary:	Shared library for %{name}
 Group:		Development/C
+%rename		%{oldlibname}
 
 %description -n %{libname}
 This package contains the shared library files for %{name}.
@@ -87,19 +96,35 @@ This package contains the development files for %{name}.
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q
-%patch2 -p1 -b .desktop
+%autosetup -p1
 
 # fix include path
 sed -i -e 's:includedir=${prefix}/include:includedir=${prefix}/include/gretl:' gretl.pc.in
+
+#  set BLAS lib
+sed -i \
+	-e 's/-lblas/-l%{blaslib}/g' \
+	-e 's/-llapack/-l%{blaslib}/g' \
+	configure
 
 # plugins licensing notes
 install -pm644 %{SOURCE1} .
 
 %build
-%configure2_5x \
+export CC=gcc
+export CXX=g++
+
+%configure \
 	--disable-static \
 	--disable-rpath \
+	--disable-avx \
+%if %{with openmpi}
+	--with-mpi \
+	--with-mpi-lib=%{_libdir}/openmpi/lib/ \
+%endif
+	--enable-build-editor \
+	--enable-build-addons \
+	--enable-addons-doc \
 	--with-libR \
 	--with-odbc \
 	--with-gsf
@@ -108,7 +133,9 @@ install -pm644 %{SOURCE1} .
 %install
 %make_install
 
+# locales
 %find_lang %{name}
 
 #we don't want these
 find %{buildroot} -name "*.la" -delete
+
