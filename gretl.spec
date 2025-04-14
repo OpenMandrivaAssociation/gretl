@@ -99,12 +99,6 @@ This package contains the development files for %{name}.
 # fix include path
 sed -i -e 's:includedir=${prefix}/include:includedir=${prefix}/include/gretl:' gretl.pc.in
 
-#  set BLAS lib
-sed -i \
-	-e 's/-lblas/-l%{blaslib}/g' \
-	-e 's/-llapack/-l%{blaslib}/g' \
-	configure
-
 # plugins licensing notes
 install -pm644 %{SOURCE1} .
 
@@ -112,6 +106,7 @@ install -pm644 %{SOURCE1} .
 export CC=gcc
 export CXX=g++
 LDFLAGS="%ldflags `pkg-config --libs ompi`"
+export LAPACK_LIBS="`pkg-config --libs %{blaslib}`"
 
 %configure \
 	--disable-static \
