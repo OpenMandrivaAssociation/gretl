@@ -9,7 +9,7 @@
 # BLAS lib
 %global blaslib flexiblas
 
-%bcond openmpi	1
+%bcond_without openmpi
 
 Summary:	A tool for econometric analysis
 Name:		gretl
