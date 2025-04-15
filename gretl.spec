@@ -27,6 +27,7 @@ BuildRequires:	fonts-ttf-freefont
 BuildRequires:	gnuplot
 BuildRequires:	R-base
 BuildRequires:	gmp-devel
+BuildRequires:	openmp-devel
 BuildRequires:	gettext
 BuildRequires:	mpfr-devel
 BuildRequires:	readline-devel
@@ -62,7 +63,7 @@ written in the C programming language.
 %{_bindir}/gretl*
 %{_libdir}/gretl-gtk3/
 %{_datadir}/%{name}/
-%{_datadir}/metainfo/%{name}.metainfo.xml
+%{_datadir}/metainfo/%{name}.appdata.xml
 %{_datadir}/mime/packages/%{name}.xml
 %{_datadir}/applications/%{name}*.desktop
 %{_iconsdir}/hicolor/*/apps/%{name}*.png
