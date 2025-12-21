@@ -21,6 +21,11 @@ Url:		https://gretl.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.xz
 #Licensing of plugins used in gretl
 Source1:	gretl_plugins.txt
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	desktop-file-utils
 BuildRequires:	fonts-ttf-bitstream-vera
 BuildRequires:	fonts-ttf-freefont
