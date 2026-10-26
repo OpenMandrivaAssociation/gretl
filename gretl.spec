@@ -1,7 +1,7 @@
 #define _disable_lto 1
 
 %define api		1.0
-%define major		51
+%define major		55
 %define oldlibname	%mklibname %{name} 1.0
 %define devname		%mklibname %{name} -d
 %define oldlibname	%mklibname %{name} %{api} 44
