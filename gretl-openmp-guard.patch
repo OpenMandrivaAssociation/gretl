@@ -1,0 +1,49 @@
+diff -ruN gretl-2026b/lib/src/gretl_matrix.c gretl-2026b/lib/src/gretl_matrix.c
+--- gretl-2026b/lib/src/gretl_matrix.c	2026-10-26 16:33:06.530866340 +0100
++++ gretl-2026b/lib/src/gretl_matrix.c	2026-10-26 16:33:06.531953653 +0100
+@@ -333,14 +333,16 @@
+ static void maybe_force_single (int n, int thresh, int *save_nt)
+ {
+     *save_nt = gretl_get_omp_threads();
+-# ifdef WIN32
++# ifdef _OPENMP
++#  ifdef WIN32
+     if (*save_nt > 1) {
+         omp_set_num_threads(1);
+     }
+-# else
++#  else
+     if (*save_nt > 1 && n < thresh) {
+         omp_set_num_threads(1);
+     }
++#  endif
+ # endif
+ }
+ 
+@@ -8744,7 +8746,7 @@
+         err = (info > 0)? E_NOTPD : E_DATA;
+     }
+ 
+-#if LIMIT_THREADS
++#if LIMIT_THREADS && defined(_OPENMP)
+     if (save_nt > 1) {
+         omp_set_num_threads(save_nt);
+     }
+@@ -9426,7 +9428,7 @@
+ 
+  bailout:
+ 
+-#if LIMIT_THREADS
++#if LIMIT_THREADS && defined(_OPENMP)
+     if (save_nt > 1) {
+         omp_set_num_threads(save_nt);
+     }
+@@ -9770,7 +9772,7 @@
+         }
+     }
+ 
+-#if LIMIT_THREADS
++#if LIMIT_THREADS && defined(_OPENMP)
+     if (save_nt > 1) {
+         omp_set_num_threads(save_nt);
+     }

@@ -32,7 +32,8 @@ BuildRequires:	fonts-ttf-freefont
 BuildRequires:	gnuplot
 BuildRequires:	R-base
 BuildRequires:	gmp-devel
-BuildRequires:	openmp-devel
+# The package builds with gcc, which needs libgomp rather than LLVM's libomp.
+BuildRequires:	lib64gomp-devel
 BuildRequires:	gettext
 BuildRequires:	mpfr-devel
 BuildRequires:	readline-devel
@@ -58,6 +59,7 @@ Requires:	R-base
 
 %patchlist
 gretl-2016b-fix-desktop-file.patch
+gretl-openmp-guard.patch
 
 %description
 A cross-platform software package for econometric analysis,
