@@ -1,10 +1,12 @@
 #define _disable_lto 1
 
 %define api		1.0
-%define major		55
-%define oldlibname	%mklibname %{name} 1.0
+%define major		57
+%define libname		%mklibname %{name}
 %define devname		%mklibname %{name} -d
-%define oldlibname	%mklibname %{name} %{api} 44
+%define oldlibname	%mklibname %{name} 1.0
+%define evenolderlibname	%mklibname %{name} %{api} 44
+%define oldestlibname	%mklibname %{name} %{api} 35
 
 # BLAS lib
 %global blaslib flexiblas
@@ -13,7 +15,7 @@
 
 Summary:	A tool for econometric analysis
 Name:		gretl
-Version:	2026b
+Version:	2026d
 Release:	1
 Group:		Sciences/Mathematics
 License:	GPLv3+ and BSD and MIT
@@ -23,7 +25,6 @@ Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.xz
 Source1:	gretl_plugins.txt
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool-base
 BuildRequires:	slibtool
 BuildRequires:	make
 BuildRequires:	desktop-file-utils
@@ -31,6 +32,13 @@ BuildRequires:	fonts-ttf-bitstream-vera
 BuildRequires:	fonts-ttf-freefont
 BuildRequires:	gnuplot
 BuildRequires:	R-base
+# Addon manuals. extra.tex uses booktabs and mathpazo (Palatino text
+# metrics in texlive-palatino, Pazo math fonts in texlive-mathpazo).
+# doc.sty pulls in hypdoc when logging.tex and dbnomics.tex also load hyperref.
+BuildRequires:	texlive-booktabs
+BuildRequires:	texlive-hypdoc
+BuildRequires:	texlive-palatino
+BuildRequires:	texlive-mathpazo
 BuildRequires:	gmp-devel
 # The package builds with gcc, which needs libgomp rather than LLVM's libomp.
 BuildRequires:	lib64gomp-devel
@@ -59,7 +67,6 @@ Requires:	R-base
 
 %patchlist
 gretl-2016b-fix-desktop-file.patch
-gretl-openmp-guard.patch
 
 %description
 A cross-platform software package for econometric analysis,
@@ -83,6 +90,8 @@ written in the C programming language.
 Summary:	Shared library for %{name}
 Group:		Development/C
 %rename		%{oldlibname}
+%rename		%{evenolderlibname}
+%rename		%{oldestlibname}
 
 %description -n %{libname}
 This package contains the shared library files for %{name}.
@@ -135,6 +144,16 @@ export LAPACK_LIBS="`pkg-config --libs %{blaslib}`"
 	--with-libR \
 	--with-odbc \
 	--with-gsf
+
+# configure writes a GNU libtool script and the Makefiles call it as
+# ../libtool. Replace that script so the build and install use slibtool.
+# --tag=disable-static keeps slibtool from compiling every file twice.
+cat > libtool << 'EOF'
+#!/bin/sh
+exec slibtool-shared --tag=disable-static "$@"
+EOF
+chmod +x libtool
+
 %make_build
 
 %install
@@ -142,7 +161,3 @@ export LAPACK_LIBS="`pkg-config --libs %{blaslib}`"
 
 # locales
 %find_lang %{name}
-
-#we don't want these
-find %{buildroot} -name "*.la" -delete
-
